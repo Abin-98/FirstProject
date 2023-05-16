@@ -22,7 +22,7 @@
         p{
             text-align: center;
         }
-        .card{
+        .box{
             border-width: 3px;
             border-color: orange;
         }
@@ -32,10 +32,10 @@
 </head>
 <body>
     <div class="container">
-    <div class="card p-4 w-sm-50 bg-white mx-auto">
+    <div class="box p-4 bg-white mx-auto" style="width: 600px;"> 
         <h2>Book a call</h2>
         <p>Book a call and our representative will call you within 1hr of selected time</p><hr>
-    <form id="form1" novalidate onsubmit="bookcall(event)">
+    <form id="form1" novalidate>
         <label for="name" class="form-label">Name:</label>
         <input type="text" name="name" id="nam" class="form-control" required>
 
