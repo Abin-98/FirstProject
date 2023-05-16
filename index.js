@@ -13,8 +13,9 @@ form.addEventListener('submit', (e) => {
     dt:e.target.date.value,
     tm:e.target.time.value
     }
+    let name=obj["nm"];
     let obj_string=JSON.stringify(obj);
-    localStorage.setItem("data_object", obj_string);
+    localStorage.setItem(name, obj_string);
 })
 
 
