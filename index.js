@@ -1,5 +1,5 @@
 
-const formm=document.querySelector("form");
+const inputs=document.querySelectorAll("input");
 const buttn=document.querySelector(".btn");
 let users=document.querySelector("#users");
 let msg=document.querySelector('.msg');
@@ -16,6 +16,8 @@ buttn.addEventListener('click', (e)=>{
     const name=obj["nm"];
     const email=obj["em"];
     const phone=obj["ph"];
+    const date=obj["dt"];
+    const time=obj["tm"];
 
     if(name==''||email==''||phone==''){
         msg.classList.add('error');
@@ -32,18 +34,22 @@ buttn.addEventListener('click', (e)=>{
     let divv=document.createElement('button');
     divv.className="btn btn-danger btn-sm float-right delete";
     divv.appendChild(document.createTextNode("Del"));
+    let edit=document.createElement('button');
+    edit.className="btn btn-success btn-sm float-right edit";
+    edit.appendChild(document.createTextNode("Edit"));
         
         // Add text node with input values
-        li.appendChild(document.createTextNode(name+" - "+email+" - "+phone));
+        li.appendChild(document.createTextNode(name+" - "+email+" - "+phone+" - "+date+" - "+time+" - "));
         li.appendChild(divv);
+        li.appendChild(edit);
 
         // Append to ul
         users.appendChild(li);
     
         // Clear fields
-        formm.children[1].value = '';
-        formm.children[3].value = '';
-        formm.children[6].value = '';
+        inputs.forEach(element => {
+            element.value="";
+        });
     }
 });
 
@@ -57,7 +63,18 @@ function removeItem(e){
         var temp=li.innerHTML;
         itemList.removeChild(li);
         var emailstr=temp.split(" - ");
-        console.log(emailstr[1]);
         localStorage.removeItem(emailstr[1]);
+    }
+    else if(e.target.classList.contains('edit')){
+        var li = e.target.parentElement;
+        var temp=li.innerHTML;
+        itemList.removeChild(li);
+        var each=temp.split(" - ");
+        localStorage.removeItem(each[1]);
+        var i=0;
+        inputs.forEach(element => {
+            element.value=each[i];
+            i++;
+        });
     }
 }
