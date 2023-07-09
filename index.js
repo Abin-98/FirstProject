@@ -27,9 +27,10 @@ buttn.addEventListener('click', (e)=>{
     else{
 
     let obj_string=JSON.stringify(obj);
-    localStorage.setItem(email, obj_string);
-
-    const li = document.createElement('li');
+    //localStorage.setItem(email, obj_string);
+    axios.post("https://crudcrud.com/api/6e81b86b0a284909bef84552b2d872fe/appointmentData", obj )
+    .then((res)=> {
+        const li = document.createElement('li');
     li.className = 'list-group-item';
     let divv=document.createElement('button');
     divv.className="btn btn-danger btn-sm float-right delete";
@@ -45,11 +46,21 @@ buttn.addEventListener('click', (e)=>{
 
         // Append to ul
         users.appendChild(li);
-    
+
         // Clear fields
         inputs.forEach(element => {
             element.value="";
         });
+        axios.get("https://crudcrud.com/api/6e81b86b0a284909bef84552b2d872fe/appointmentData")
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{console.log(err)})
+        console.log(res);
+    })
+    .catch((err)=> { console.log(err)} )
+
+    
     }
 });
 
@@ -60,7 +71,7 @@ itemList.addEventListener('click', removeItem);
 function removeItem(e){
     if(e.target.classList.contains('delete')){
         var li = e.target.parentElement;
-        var temp=li.innerHTML;
+        var temp=li.textContent;
         itemList.removeChild(li);
         var emailstr=temp.split(" - ");
         localStorage.removeItem(emailstr[1]);
