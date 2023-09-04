@@ -28,7 +28,7 @@ buttn.addEventListener('click', (e)=>{
 
     let obj_string=JSON.stringify(obj);
     //localStorage.setItem(email, obj_string);
-    axios.post("https://crudcrud.com/api/6e81b86b0a284909bef84552b2d872fe/appointmentData", obj )
+    axios.post("https://crudcrud.com/api/dc4986a1dd61401a9392b96ecd104fd6/appointmentData", obj )
     .then((res)=> {
         const li = document.createElement('li');
     li.className = 'list-group-item';
@@ -51,7 +51,7 @@ buttn.addEventListener('click', (e)=>{
         inputs.forEach(element => {
             element.value="";
         });
-        axios.get("https://crudcrud.com/api/6e81b86b0a284909bef84552b2d872fe/appointmentData")
+        axios.get("https://crudcrud.com/api/dc4986a1dd61401a9392b96ecd104fd6/appointmentData")
         .then((res)=>{
             console.log(res);
         })
@@ -63,6 +63,20 @@ buttn.addEventListener('click', (e)=>{
     
     }
 });
+
+window.addEventListener("DOMContentLoaded", ()=>{
+    axios.get("https://crudcrud.com/api/dc4986a1dd61401a9392b96ecd104fd6/appointmentData")
+    .then((res) =>{
+        console.log(res)
+        for(var i=0;i<res.data.length;i++){
+                const childElem=document.createElement("li")
+                childElem.textContent=res.data[i].nm+ " - "+ res.data[i].em+" - "+res.data[i].ph+" - "+res.data[i].dt+" - "+res.data[i].tm+" - "
+                users.appendChild(childElem)
+        }
+    }).catch((error)=>{
+        console.log(error)
+    })
+})
 
 var itemList = document.getElementById('users');
 // Delete event
