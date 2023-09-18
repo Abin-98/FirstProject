@@ -26,9 +26,9 @@ buttn.addEventListener('click', (e)=>{
     }
     else{
 
-    let obj_string=JSON.stringify(obj);
+    //let obj_string=JSON.stringify(obj);
     //localStorage.setItem(email, obj_string);
-    axios.post("https://crudcrud.com/api/dc4986a1dd61401a9392b96ecd104fd6/appointmentData", obj )
+    axios.post("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData", obj )
     .then((res)=> {
         const li = document.createElement('li');
     li.className = 'list-group-item';
@@ -38,20 +38,25 @@ buttn.addEventListener('click', (e)=>{
     let edit=document.createElement('button');
     edit.className="btn btn-success btn-sm float-right edit";
     edit.appendChild(document.createTextNode("Edit"));
+    }) 
+    axios.get("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData")
+    .then((res) =>{
+        console.log(res)
         
+                const childElem=document.createElement("li")
         // Add text node with input values
-        li.appendChild(document.createTextNode(name+" - "+email+" - "+phone+" - "+date+" - "+time+" - "));
-        li.appendChild(divv);
-        li.appendChild(edit);
+        childElem.appendChild(document.createTextNode(name+" - "+email+" - "+phone+" - "+date+" - "+time+" - "));
+        childElem.appendChild(divv);
+        childElem.appendChild(edit);
 
         // Append to ul
-        users.appendChild(li);
+        users.appendChild(childElem);
 
         // Clear fields
         inputs.forEach(element => {
             element.value="";
         });
-        axios.get("https://crudcrud.com/api/dc4986a1dd61401a9392b96ecd104fd6/appointmentData")
+        axios.get("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData")
         .then((res)=>{
             console.log(res);
         })
@@ -59,19 +64,31 @@ buttn.addEventListener('click', (e)=>{
         console.log(res);
     })
     .catch((err)=> { console.log(err)} )
-
-    
     }
 });
 
 window.addEventListener("DOMContentLoaded", ()=>{
-    axios.get("https://crudcrud.com/api/dc4986a1dd61401a9392b96ecd104fd6/appointmentData")
+    axios.get("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData")
     .then((res) =>{
         console.log(res)
         for(var i=0;i<res.data.length;i++){
                 const childElem=document.createElement("li")
+                childElem.id=res.data[i]._id;
+                console.log(childElem.id);
                 childElem.textContent=res.data[i].nm+ " - "+ res.data[i].em+" - "+res.data[i].ph+" - "+res.data[i].dt+" - "+res.data[i].tm+" - "
                 users.appendChild(childElem)
+                const li = document.createElement('li');
+                childElem.className = 'list-group-item';
+    let divv=document.createElement('button');
+    divv.className="btn btn-danger btn-sm float-right delete";
+    divv.appendChild(document.createTextNode("Del"));
+    let edit=document.createElement('button');
+    edit.className="btn btn-success btn-sm float-right edit";
+    edit.appendChild(document.createTextNode("Edit"));
+        
+        // Add text node with input values
+        childElem.appendChild(divv);
+        childElem.appendChild(edit);
         }
     }).catch((error)=>{
         console.log(error)
@@ -80,15 +97,22 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 var itemList = document.getElementById('users');
 // Delete event
-itemList.addEventListener('click', removeItem);
+itemList.addEventListener('click', removeOrEdit);
 
-function removeItem(e){
+function removeOrEdit(e){
     if(e.target.classList.contains('delete')){
         var li = e.target.parentElement;
         var temp=li.textContent;
-        itemList.removeChild(li);
-        var emailstr=temp.split(" - ");
-        localStorage.removeItem(emailstr[1]);
+        
+        var userid=temp.split(" - ");
+        axios
+        .delete(`https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData/${li.id}`)
+        .then((res)=>
+        { 
+            itemList.removeChild(li);
+        })
+        .catch(err=> console.error(err))
+        
     }
     else if(e.target.classList.contains('edit')){
         var li = e.target.parentElement;
