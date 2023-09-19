@@ -40,12 +40,11 @@ buttn.addEventListener('click', (e)=>{
     edit.appendChild(document.createTextNode("Edit"));
     }) 
     axios.get("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData")
-    .then((res) =>{
-        console.log(res)
-        
-                const childElem=document.createElement("li")
+    .then((res) =>{       
+        const childElem=document.createElement("li")
         // Add text node with input values
         childElem.appendChild(document.createTextNode(name+" - "+email+" - "+phone+" - "+date+" - "+time+" - "));
+        childElem.id=res.data._id;
         childElem.appendChild(divv);
         childElem.appendChild(edit);
 
@@ -56,12 +55,6 @@ buttn.addEventListener('click', (e)=>{
         inputs.forEach(element => {
             element.value="";
         });
-        axios.get("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData")
-        .then((res)=>{
-            console.log(res);
-        })
-        .catch((err)=>{console.log(err)})
-        console.log(res);
     })
     .catch((err)=> { console.log(err)} )
     }
@@ -70,11 +63,9 @@ buttn.addEventListener('click', (e)=>{
 window.addEventListener("DOMContentLoaded", ()=>{
     axios.get("https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData")
     .then((res) =>{
-        console.log(res)
         for(var i=0;i<res.data.length;i++){
                 const childElem=document.createElement("li")
                 childElem.id=res.data[i]._id;
-                console.log(childElem.id);
                 childElem.textContent=res.data[i].nm+ " - "+ res.data[i].em+" - "+res.data[i].ph+" - "+res.data[i].dt+" - "+res.data[i].tm+" - "
                 users.appendChild(childElem)
                 const li = document.createElement('li');
@@ -117,9 +108,14 @@ function removeOrEdit(e){
     else if(e.target.classList.contains('edit')){
         var li = e.target.parentElement;
         var temp=li.innerHTML;
-        itemList.removeChild(li);
         var each=temp.split(" - ");
-        localStorage.removeItem(each[1]);
+        axios
+        .delete(`https://crudcrud.com/api/b1b90e0b12a6479bbee9dd43d97aa21a/appointmentData/${li.id}`)
+        .then((res)=>
+        { 
+            itemList.removeChild(li);
+        })
+        .catch(err=> console.error(err))
         var i=0;
         inputs.forEach(element => {
             element.value=each[i];
