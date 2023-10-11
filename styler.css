@@ -1,0 +1,57 @@
+body {
+  background-image: url(bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+label {
+  text-align: left;
+}
+h2 {
+  text-align: center;
+  color: orange;
+}
+p {
+  text-align: center;
+}
+#buttn {
+  background-color: orange;
+  color: white;
+  height: 40px;
+  width: 100%;
+}
+#buttn:hover {
+  background-color: rgb(255, 200, 0);
+}
+#colmn {
+  background-color: white;
+  border-width: 3px;
+  border-radius: 10px;
+  border: 2px solid orange;
+}
+ul {
+  list-style: none;
+}
+ul li {
+  padding: 4px;
+  background-color: white;
+  height: auto;
+  width: 100%;
+  margin: 10px 0;
+  border: 2px solid orange;
+}
+.error {
+  background: orangered;
+  color: #fff;
+  padding: 5px;
+  margin: 5px;
+}
+#cont {
+  width: 600px;
+}
+span {
+  display: none;
+}
+.float-right {
+  float: right;
+}
